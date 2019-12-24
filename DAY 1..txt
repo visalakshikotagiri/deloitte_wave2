@@ -1,0 +1,173 @@
+--1 Create a query to display all the data from the Customers table.
+select * from customers;
+
+--2 The following SELECT statement executes successfully (True / False)-FALSE	
+FROM Customers 
+SELECT last_name , first_name
+
+--3 Create a query to display the internet package number, internet speed and monthly payment (Packages table)
+select pack_id,speed,monthly_payment from packages;
+
+--4 The following SELECT statement executes successfully (True / False)- true
+select strt_date, monthly_payment from packages;
+
+--5 The following SELECT statement executes successfully (True / False)-false
+SeleCT        last_NAME , fiRST_NamE , FROM customers
+
+--6 Create a query to display the customer number, first name, last name, primary phone number, secondary phone number and package number (Customers table).
+select customer_id, first_name, last_name, main_phone_num, secondary_phone_num, pack_id from customers;
+
+--7 Create a query to display first name, last name, join date, monthly discount, monthly discount after an addition of 20% and monthly discount after a reduction of 20%  (Customers table).
+select first_name, last_name, join_date, monthly_discount, monthly_discount*1.2, monthly_discount*0.8 from customers;
+
+--8 Create a query to display the package number, speed, strt_date (the date when the package became available), monthly payment, and monthly payment * 12, name the last column “YearlyPayment” (Packages table).
+select pack_id, speed, monthly_payment, strt_date, monthly_payment*12  as YEARLY_PAYMENT from packages;
+
+--9 Create a query to display the last name concatenated with the first name, separated by space, and main phone number concatenated with secondary phone number, separated by comma and space. Name the column heading FULL_NAME and CONTACT_DETAILS respectively. (Customers table
+select last_name||' '|| first_name as FULL_NAME, main_phone_num ||', '|| secondary_phone_num as CONTACT_DETAILS from customers;
+--10 Create a query to display unique cities from the Customers table
+select distinct city from customers;
+
+--11 Create a query to display unique states from the Customers table
+select distinct state from customers;
+
+--12 Create a query to display unique combination of cities and states from Customers table.
+select distinct city ,state from customers;
+
+--13 Create a query to display unique monthly discounts in Customers table
+select distinct monthly_discount from customers;
+
+--14 Create a query to display unique packages (package_id) in Customers table
+select distinct pack_id from customers;
+
+--15 Create a query to display the last name concatenated with the state, separated by space. Name this column CUSTOMER_AND_STATE (Customers table)
+select last_name ||' ' || state as CUSTOMER_AND_STATE from customers;
+
+--16 Create a query to display the first name, last name, monthly discount and city concatenated with street, separated by space.  Name the column headings: FN, LN, DC and FULL_ADDRESS respectively (Customers table).
+select first_name as FN, last_name as LN, monthly_discount as DC, city ||' '|| street as FULL_ADDRESS from customers; 
+
+
+
+
+
+
+
+--1 Display the first name, last name, and package number for all customers whose last name is “King” (Customers table).
+select first_name, last_name, pack_id 
+from customers
+where last_name='king';
+
+--2 Display all the data from Packages table for packages whose speed is “5Mbps”.
+select pack_id, speed, monthly_payment, sector_id, strt_date
+from packages
+where speed='5Mbps';
+
+--3 Display the first name, last name, package number and monthly discount for all customers with monthly discount less than 30 (Customers table).
+select first_name, last_name, pack_id, monthly_discount
+from customers
+where monthly_discount<50;
+
+--4 Display all the data from Customers table for all customers who joined the company before January 1st, 2007.
+select * from customers where join_date desc;
+
+--5 Display the customer number, first name ,state, city and package number for all customers whose package number equals 21, 28, or 14 (Customers table).
+select customer_id, first_name, state, city, pack_id
+from customers 
+where pack_id in(21,28,14);
+
+--6 Display the customer number, first name ,state, city and package number for all customers whose package number is not equal to 27, 10, or 3 (Customers table).
+select customer_id, first_name, state,city, pack_id
+from customers
+where pack_id not in(27,10,3);
+
+--7 Display the last name, main phone number, monthly discount and package number for all customers whose customer number equals 703, 314 or 560 (Customers table).
+select last_name, main_phone_num, monthly_discount, pack_id
+from customers
+where customer_id not in(703,314,560);
+
+--8 Display the first name and monthly discount for all customers whose first name ends with an e (Customers table).
+select first_name, monthly_discount
+from customers
+where first_name like '%e';
+
+--9 Display the last name and package number for all customers where the second letter of their last name is d (Customers table).
+select last_name, pack_id 
+from customers
+where last_name like '_d%';
+
+--10 Display all the data from Customers table for all customers who have the letters:  l, j or h in their last name. Order the query in descending order by monthly discount (Customers table).
+select * from customers
+where REGEXP_LIKE(last_name, '+[lgh]+') 
+order by monthly_discount;
+
+--11 Display the first name, join date, monthly discount and package number for all customers who don’t have the letter a in their last name. Order the query in ascending order by package number (Customers table).
+select first_name, join_date, monthly_discount, pack_id 
+from customers
+where last_name not like'%a%'
+order by pack_id asc;
+
+--12 Display all data from Customers table for all customers without a package (package number is null)
+select * from customers
+where pack_id is null;
+
+--13 Display the first name concatenated with the last name (separated by space), and monthly discount for all customers whose monthly discount is not in the range between 20 and 30. Order the query in ascending order by the full name (Customers table).
+select first_name||' '||last_name as FULL_NAME, monthly_discount
+from customers
+where monthly_discount not between 20 and 30
+order by full_name asc;
+
+--14 Display the first name concatenated with the last name (separated by space), the main phone number concatenated with street (separated by space), and monthly discount for all customers whose monthly discount is in the range between 11 and 27. Name the column headings FULL_NAME, CONTACTS, and DC respectively (Customers table).
+select first_name||' '||last_name as FULL_NAME, main_phone_num||' '||street, monthly_discount as DC
+from customers
+where monthly_discount  between 11 and 27;
+
+--15 Display all data from Customers table for : 
+All customers who live in New York and whose monthly discount is in the range between 30 and 40 or
+All customers whose package number is not 8,19, or 30 and whose join date is before January 1st, 2007
+select * from customers
+where (state='NEW YORK' and monthly_discount between 30 and 40) or (pack_id not in (8,19,30) and join_date<'01-JAN-2007') 
+order by state;
+
+--16 Display the last name, package number, and birthdate for all customers whose join date is in the range between December 12th, 2007 and April 17th, 2010 (Customers table).
+select last_name, pack_id, birth_date, join_date
+from customers
+where join_date between '12-DEC-2007' and '17-APRIL-2010';
+
+--17 Display the package number, start date, and speed for all packages whose start date is before January 1st, 2007 (Packages table)
+select pack_id, strt_date, speed
+from packages
+where strt_date<'01-JAN-2007';
+
+--18 Display the package number, speed, and sector number for all packages whose sector number equals 1 (Packages table).
+select pack_id, speed, sector_id
+from packages
+where sector_id='1';
+
+--19 Display the package number, speed and sector number for all packages with internet speed of “5Mbps” or “10Mbps” (Packages table).
+select pack_id , speed, sector_id
+from packages
+where speed in ('5Mbps', '10Mbps');
+
+--20 Display the last name and monthly discount for all customers live in Orlando (Customers table).
+select last_name, monthly_discount, city
+from customers
+where city='Orlando';
+
+--21 Display the last name and package number for all customers whose package number equals 9 or 18. Preform the exercise once using IN operator, once using OR (Customers table).
+select last_name, pack_id
+from customers
+where pack_id in (9,18);
+
+select last_name, pack_id
+from customers
+where pack_id=9 or pack_id=18;
+
+--22 Display the first name, main phone number and secondary phone number for all customers without a secondary phone number (secondary phone number is null).
+select first_name, main_phone_num, secondary_phone_num
+from customers
+where secondary_phone_num is null;
+
+--23 Display the first name, monthly discount and package id for all customers without any monthly discount (monthly discount is null).
+select first_name, monthly_discount, pack_id 
+from customers
+where monthly_discount is null;
