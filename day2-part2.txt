@@ -1,0 +1,122 @@
+--1 Display the lowest last name alphabetically (Customers table).
+select min(last_name)
+from customers;
+
+--2 Display the average monthly payment (Packages table).
+select avg(monthly_payment)
+from packages;
+
+--3 Display the highest last name alphabetically (Customers table).
+select max(last_name)
+from customers;
+
+--4 Display the number of internet packages (Packages table).
+select count(pack_id)
+from packages;
+
+--5 Display the number of records in Customers table.
+select count(customer_id)
+from customers;
+
+--6 Display the number of distinct states (Customers table).
+select count( distinct state)
+from customers;
+
+--7 Display the number of distinct internet speeds (Packages table
+select count(distinct speed)
+from packages;
+
+--8 Display the number of values (exclude Nulls) in Fax column (Customers table).
+select count(fax)
+from customers
+where fax is not null;
+
+--9 Display the number of Null values in Fax column (Customers table).
+select count(fax)
+from customers
+where fax is null;
+
+--10 Display the highest, lowest and average monthly discount (Customers table).
+select max(monthly_discount), min(monthly_discount), avg(monthly_discount)
+from customers;
+
+--11 Display the state and the number of customers for each state (Customers table
+select state, count(state)
+from customers
+group by state;
+
+--12 Display the internet speed and the average monthly payment for each speed (Packages table).
+select speed, avg(monthly_payment)
+from packages
+group by speed;
+
+--13 Display the state and the number of distinct cities for each state (Customers table).
+select state, count(distinct city)
+from customers
+group by state;
+
+--14 Display the sector number and the highest monthly payment for each sector (Packages table).
+select sector_id, max(monthly_payment)
+from packages
+group by sector_id;
+
+--15 Display the package number and the average monthly discount for each package.
+select pack_id, avg(monthly_discount)
+from customers
+group by pack_id;
+-- Display the package number and the average monthly discount for each package, only for packages whose number equals 22 or 13.
+select pack_id, avg(monthly_discount)
+from customers
+group by pack_id
+having pack_id in(22, 13);
+
+--16 Display the highest, lowest and average monthly payment for each internet speed (Packages table).
+select max(monthly_payment), min(monthly_payment), avg(monthly_payment)
+from packages
+group by speed;
+
+--17 Display the package number and the number of customers for each package number
+select pack_id, count(customer_id)
+from customers
+group by pack_id;
+-- Modify the query to display the package number and number of customers for each package number, only for the customers whose monthly discount is greater than 20.
+select pack_id, count(customer_id)
+from customers
+where monthly_discount>20
+group by pack_id;
+-- Modify the query to display the package number and number of customers for each package number, only for the packages with more than 100 customers.
+select pack_id, count(customer_id)
+from customers
+having count(customer_id)>100
+group by pack_id;
+
+--18 Display the state, city and number of customers for each state and city.
+select state, city, count(customer_id)
+from customers
+group by state ,city;
+
+--19 Display the city and the average monthly discount for each city
+select city, avg(monthly_discount)
+from customers
+group by city;
+--Display the city and the average monthly discount for each city, only for the customers whose monthly discount is greater than 20
+select city, avg(monthly_discount)
+from customers
+where monthly_discount>20
+group by city;
+
+--20 Display the state and the lowest monthly discount for each state.
+select state, min(monthly_discount)
+from customers
+group by state;
+-- Display the state and lowest monthly discount for each state, only for states where the lowest monthly discount is greater than 10
+select state, min(monthly_discount)
+from customers
+group by state
+having min(monthly_discount)>10;
+
+--21 Display the internet speed and number of package for each internet speed, only for the internet speeds with more than 8 packages.
+select speed, count(pack_id)
+from packages
+group by speed
+having count(pack_id)>8;
