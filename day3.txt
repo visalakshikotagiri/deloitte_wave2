@@ -1,0 +1,83 @@
+--1.	Customers and internet packages (Customers & Packages tables) – 
+--a.	Write a query to display first name, last name, package number and internet speed for all customers.
+select c.first_name,c.last_name,c.pack_id,p.speed
+from customers c 
+inner join packages p
+on c.pack_id=p.pack_id;
+--b.	Write a query to display first name, last name, package number and internet speed for all customers whose package number equals 22 or 27. Order the query in ascending order by last name.
+select c.first_name,c.last_name,c.pack_id,p.speed
+from customers c
+inner join packages p
+on c.pack_id=p.pack_id
+where c.pack_id in(22,27)
+order by last_name asc;
+--2.	Internet packages and sectors – 
+a.	Display the package number, internet speed, monthly payment and sector name for all packages (Packages and Sectors tables).
+select p.pack_id,p.speed,p.monthly_payment,s.sector_name
+from packages p
+inner join sectors s
+on p.sector_id=s.sector_id;
+--b.	Display the customer name, package number, internet speed, monthly payment and sector name for all customers (Customers, Packages and Sectors tables).
+select c.first_name,c.last_name,c.pack_id,p.speed,s.sector_name
+from customers c 
+inner join packages p
+on c.pack_id=p.pack_id
+inner join sectors s
+on p.sector_id=s.sector_id;
+--c.	Display the customer name, package number, internet speed, monthly payment and sector name for all customers in the business sector (Customers, Packages and Sectors tables).
+select c.first_name,c.last_name,c.pack_id,p.speed,p.monthly_payment,s.sector_name
+from customers c
+inner join 
+packages p
+on c.pack_id=p.pack_id
+inner join 
+sectors s
+on p.sector_id=s.sector_id
+and sector_name='Business';
+--3.	Display the last name, first name, join date, package number, internet speed and sector name for all customers in the private sector who joined the company in the year 2006.
+select c.last_name,c.first_name,c.join_date,c.pack_id,p.speed,s.sector_name
+from customers c
+inner join packages p
+on c.pack_id=p.pack_id
+inner join sectors s
+on p.sector_id=s.sector_id
+and sector_name='Private'
+and join_date like '%06';
+--4.	Display the package number, internet speed, monthly payment and package grade for all packages (Packages and Pack_Grades tables).
+select p.pack_id,p.speed,p.monthly_payment,g.grade_name
+from packages p
+inner join pack_grades g
+on p.pack_id=g.grade_id;
+--5.	Customers and internet packages (Customers and Packages tables) 
+a.	Display the first name, last name, internet speed and monthly payment for all customers. Use INNER JOIN to solve this exercise.
+select c.first_name,c.last_name,p.speed,p.monthly_payment
+from customers  c
+inner join packages p
+on c.pack_id=p.pack_id;
+b.	Modify last query to display all customers, including those without any internet package.
+select c.first_name,c.last_name,p.speed,p.monthly_payment
+from customers c,packages p
+where c.pack_id=p.pack_id(+);
+c.	Modify last query to display all packages, including those without any customers.
+select c.first_name,c.last_name,p.speed,p.monthly_payment
+from customers c,packages p
+where c.pack_id(+)=p.pack_id;
+d.	Modify last query to display all packages and all customers.
+select c.first_name,c.last_name,p.speed,p.monthly_payment
+from customers c full outer join packages p
+on c.pack_id=p.pack_id;
+--6.	Display the last name, first name and package number for all customers who have the same package number as customer named ‘Amado Taylor’ (Customers table).
+select c1.last_name,c1.first_name,c1.pack_id
+from customers c1 , customers c2 
+where c2.first_name='Amado' and c2.last_name='Taylor'
+and c1.pack_id=c2.pack_id;
+--7.	Display the last name, first name and monthly discount for all customers whose monthly discount is lower than the monthly discount of employee number 103 (Customers table).
+select c1.last_name,c1.first_name,c1.monthly_discount
+from customers c1,customers c2
+where c2.customer_id=103
+and c1.monthly_discount<c2.monthly_discount;
+--8.	Display the package number and internet speed for all packages whose internet speed is equal to the internet speed of package number 10 (Packages table).
+select p1.pack_id,p1.speed
+from packages p1,packages p2
+where p2.pack_id=10
+and p1.speed=p2.speed;
