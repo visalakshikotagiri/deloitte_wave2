@@ -1,0 +1,85 @@
+--1) Create the DEPT table, based on the following table instance chart. Save the statement
+--in a script called lab_10_01.sql, and then execute the statement in the script to
+--create the table. Confirm that the table is created.
+create table dept(
+dept_id number(7) not null primary key,
+name varchar(27));
+
+--2)Populate the DEPT table with data from the DEPARTMENTS table. Include only
+--columns that you need.
+insert into dept(dept_id,name)
+select department_id,department_name from departments;
+
+commit;
+--Create the EMP table based on the following table instance chart. Save the statement
+--in a script called lab_10_03.sql, and then execute the statement in the script to
+--create the table. Confirm that the table is created.
+create table emp(
+                 emp_id number(7),
+                 last_name varchar2(25),
+                 first_name varchar2(25),
+                 dept_id number(7),
+                 constraint dept_id foreign key(dept_id) references dept(dept_id)
+);
+
+--) Create the EMPLOYEES2 table based on the structure of the EMPLOYEES table. 
+--Include only the EMPLOYEE_ID, FIRST_NAME, LAST_NAME, SALARY, and DEPARTMENT_ID columns.
+--Name the columns in your new table ID, FIRST_NAME, LAST_NAME, SALARY, and DEPT_ID, respectively.
+create table employees2(
+                        id number(6,0) not null primary key,
+                        first_name varchar2(20),
+                        last_name varchar2(25) not null,
+                        salary number(8,2),
+                        dept_id number(4,0));
+       
+insert into employees2(id,first_name,last_name,salary,dept_id)
+select employee_id,first_name,last_name,salary,department_id from employees;
+
+commit;
+
+--Alter the EMPLOYEES2 table status to read-only.
+alter table employees2 read only;
+--Try to insert the following row in the EMPLOYEES2 table:
+--You get the following error message:
+insert into employees2 values(880,'michael','chen',20000,60);
+--Revert the EMPLOYEES2 table to the read/write status. Now, try to insert the same
+--row again. You should get the following messages:
+alter table employees2 read write;
+
+insert into employees2 values(880,'michael','chen',20000,60);
+--Drop the EMPLOYEES2 table.
+drop table employees2;
+select * from employees2;
+
+
+--1) The staff in the HR department wants to hide some of the data in the EMPLOYEES
+--table. Create a view called EMPLOYEES_VU based on the employee numbers,
+--employee last names, and department numbers from the EMPLOYEES table. The
+--heading for the employee name should be EMPLOYEE.
+create view employees_vu(employee_id,employee,department_id)
+as select employee_id,last_name,department_id
+from employees;
+--Confirm that the view works. Display the contents of the EMPLOYEES_VU view.
+select * from employees_vu;
+--Using your EMPLOYEES_VU view, write a query for the HR department to display all
+--employee names and department numbers.
+select employee,department_id
+from employees_vu;
+--Department 50 needs access to its employee data. Create a view named DEPT50 that
+--contains the employee numbers, employee last names, and department numbers for
+--all employees in department 50. You have been asked to label the view columns
+--EMPNO, EMPLOYEE, and DEPTNO. For security purposes, do not allow an employee to
+--be reassigned to another department through the view.
+create view dept50(empno,employee,deptno)
+as select employee_id,last_name,department_id
+from employees
+where department_id=50
+with read only;
+
+--Display the structure and contents of the DEPT50 view.
+select * from dept50;
+describe dept50;
+--Test your view. Attempt to reassign Matos to department 80.
+
+
+
